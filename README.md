@@ -173,4 +173,4 @@ Before submitting a change, run:
 npm run check
 ```
 
-This runs the same lint and production-build checks enforced by the pre-push hook. Vite may also report a non-fatal configuration warning about using `__dirname` in `vite.config.ts`; migrating that file to `import.meta.dirname` would remove that warning.
+This runs the same lint and production-build checks enforced by the pre-push hook.
