@@ -1,6 +1,7 @@
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { GithubIcon } from "@/components/ui/GithubIcon";
+import { ThemeController } from "@/components/ui/ThemeController";
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -9,7 +10,7 @@ interface HeaderProps {
 
 export const Header = ({ onMenuToggle, isMobile }: HeaderProps) => {
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white z-30 bg-base-100 border-b border-base-300">
+    <header className="fixed top-0 left-0 right-0 z-30 border-b border-base-300 bg-base-100">
       <div className=" navbar max-w-7xl mx-auto px-4 min-h-16">
         <div className="navbar-start">
           {isMobile && (
@@ -33,7 +34,8 @@ export const Header = ({ onMenuToggle, isMobile }: HeaderProps) => {
             <span className="text-sm text-base-content/60">Search...</span>
           </div>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end flex items-center gap-1">
+          <ThemeController />
           <a
             href="https://github.com"
             target="_blank"
