@@ -14,6 +14,7 @@ A browser-based workspace for learning data structures and algorithms through in
 - React Compiler enabled through the Vite React/Babel configuration.
 - A small `cn()` class-name utility built with `clsx` and `tailwind-merge`.
 - A routed application shell with a responsive Header and collapsible Sidebar.
+- Route-aware smooth scroll restoration that returns to the top on navigation.
 - Working `/sorting/bubble` and `/sorting/insertion` routes with frame-based visualizers.
 - Educational guides for both sorting algorithms with plain-language steps, pseudocode, complexity, and animation legends.
 - Playback controls, manual stepping, array generation, array sizing, and playback speed up to 6x.

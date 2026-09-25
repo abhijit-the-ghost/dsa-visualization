@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { Sidebar } from "@/components/layout/Sidebar";
 
 const MOBILE_BREAKPOINT = 768;
@@ -28,6 +29,7 @@ export function PageLayout() {
 
   return (
     <div className="min-h-screen bg-base-200">
+      <ScrollToTop />
       <Header
         isMobile={isMobile}
         onMenuToggle={() => setIsSidebarOpen((isOpen) => !isOpen)}
