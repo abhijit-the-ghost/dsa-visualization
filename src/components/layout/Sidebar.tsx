@@ -48,17 +48,18 @@ export function Sidebar({ isOpen, isMobile, onClose }: SidebarProps) {
             const Icon = category.icon;
             const isExpanded = expanded.includes(category.label);
             const isEmpty = category.children.length === 0;
+            const isComingSoon = category.isComingSoon || isEmpty;
 
             return (
               <div key={category.label}>
                 <button
-                  onClick={() => !isEmpty && toggleCategory(category.label)}
-                  disabled={isEmpty}
+                  onClick={() => !isComingSoon && toggleCategory(category.label)}
+                  disabled={isComingSoon}
                   className={cn(
                     "w-full flex items-center justify-between",
                     "px-3 py-2 rounded-lg text-sm font-medium",
                     "transition-colors",
-                    isEmpty
+                    isComingSoon
                       ? "text-base-content/40 cursor-not-allowed"
                       : "hover:bg-base-200",
                   )}
@@ -68,7 +69,7 @@ export function Sidebar({ isOpen, isMobile, onClose }: SidebarProps) {
                     <span>{category.label}</span>
                   </div>
 
-                  {!isEmpty && (
+                  {!isComingSoon && (
                     <ChevronDown
                       size={16}
                       className={cn(
@@ -78,12 +79,12 @@ export function Sidebar({ isOpen, isMobile, onClose }: SidebarProps) {
                     />
                   )}
 
-                  {isEmpty && (
+                  {isComingSoon && (
                     <span className="badge badge-ghost badge-xs">soon</span>
                   )}
                 </button>
 
-                {!isEmpty && isExpanded && (
+                {!isComingSoon && isExpanded && (
                   <div className="ml-4 mt-1 pl-3 border-l border-base-300 space-y-1">
                     {category.children.map((item) => (
                       <NavLink

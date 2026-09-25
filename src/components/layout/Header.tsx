@@ -37,7 +37,7 @@ export const Header = ({ onMenuToggle, isMobile }: HeaderProps) => {
         <div className="navbar-end flex items-center gap-1">
           <ThemeController />
           <a
-            href="https://github.com"
+            href="https://github.com/abhijit-the-ghost/dsa-visualization"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost btn-sm btn-square"

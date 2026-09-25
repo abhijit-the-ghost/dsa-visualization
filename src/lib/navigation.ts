@@ -16,6 +16,7 @@ export interface NavCategory {
   label: string;
   icon: LucideIcon;
   children: NavItem[];
+  isComingSoon?: boolean;
 }
 
 export const navigation: NavCategory[] = [
@@ -30,6 +31,7 @@ export const navigation: NavCategory[] = [
   {
     label: "Searching",
     icon: Search,
+    isComingSoon: true,
     children: [
       { label: "Linear Search", path: "/searching/linear" },
       { label: "Binary Search", path: "/searching/binary" },

@@ -18,6 +18,7 @@ A browser-based workspace for learning data structures and algorithms through in
 - Educational guides for both sorting algorithms with plain-language steps, pseudocode, complexity, and animation legends.
 - Playback controls, manual stepping, array generation, array sizing, and playback speed up to 6x.
 - A DaisyUI theme controller with a persisted selection in `localStorage`.
+- A custom SVG favicon and SEO, Open Graph, and Twitter metadata in `index.html`.
 - Navigation metadata for sorting, searching, and future data-structure areas.
 - Early Header and Sidebar components with responsive and collapsible-navigation scaffolding.
 - ESLint configuration for JavaScript/TypeScript, React Hooks, and React Refresh rules.
@@ -33,7 +34,7 @@ The sorting modules are now functional:
   - Bubble Sort — adjacent comparisons and swaps, with a guide to the pass-by-pass process.
   - Insertion Sort — grows a sorted prefix by moving each new value left into place.
 
-The next planned modules are:
+The next planned modules are shown as roadmap items in the sidebar; Searching is currently marked as coming soon:
 
 - **Searching**
   - Linear Search
