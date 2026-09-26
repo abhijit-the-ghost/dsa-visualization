@@ -1,4 +1,7 @@
-import { createInsertionSortSteps } from "@/features/sorting/algorithms/insertionSort";
+import {
+  createInsertionSortSteps,
+  insertionSortSourceCode,
+} from "@/features/sorting/algorithms/insertionSort";
 import { InsertionSortGuide } from "@/features/sorting/components/InsertionSortGuide";
 import { SortingVisualizer } from "@/features/sorting/components/SortingVisualizer";
 
@@ -22,6 +25,8 @@ export function InsertionSortPage() {
       <InsertionSortGuide />
       <SortingVisualizer
         createSteps={createInsertionSortSteps}
+        codeTitle="Insertion Sort source"
+        codeLines={insertionSortSourceCode}
         operationLabel="Moves"
         swappingLabel="Moving"
         sortedStatusLabel="Prefix sorted"

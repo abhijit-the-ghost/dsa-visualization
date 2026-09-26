@@ -1,10 +1,21 @@
 import type { VisualizationStep, VisualizationStatus } from "@/engine/types/visualization";
 
+export const insertionSortSourceCode = [
+  "for i from 1 to n - 1:",
+  "  current = values[i]",
+  "  j = i - 1",
+  "  while j >= 0 and values[j] > current:",
+  "    swap(values[j], values[j + 1])",
+  "    j = j - 1",
+  "  values[j + 1] = current",
+];
+
 function createStep(
   values: number[],
   activeIndices: number[],
   sortedIndices: number[],
   status: VisualizationStatus,
+  codeLine: number,
   description: string,
   comparisons: number,
   swaps: number,
@@ -14,6 +25,7 @@ function createStep(
     activeIndices: [...activeIndices],
     sortedIndices: [...sortedIndices].sort((left, right) => left - right),
     status,
+    codeLine,
     description,
     comparisons,
     swaps,
@@ -35,7 +47,8 @@ export function createInsertionSortSteps(
       [],
       [],
       "ready",
-      "Ready to build a sorted prefix from left to right.",
+      1,
+      "We are about to start. We will build a sorted section from left to right.",
       comparisons,
       swaps,
     ),
@@ -43,6 +56,7 @@ export function createInsertionSortSteps(
 
   for (let index = 1; index < values.length; index += 1) {
     const currentValue = values[index];
+    const startingPosition = index;
     let position = index - 1;
 
     steps.push(
@@ -51,7 +65,8 @@ export function createInsertionSortSteps(
         [index],
         [...sortedIndices],
         "ready",
-        `Select ${currentValue} and find its place in the sorted prefix.`,
+        2,
+        `Choose ${currentValue}. The values before it are already a sorted prefix, so we find where ${currentValue} belongs.`,
         comparisons,
         swaps,
       ),
@@ -67,7 +82,8 @@ export function createInsertionSortSteps(
           [position, position + 1],
           [...sortedIndices],
           "comparing",
-          `Compare ${leftValue} with ${currentValue}.`,
+          4,
+          `Compare ${leftValue} with ${currentValue}. If the left value is larger, ${currentValue} needs to move left.`,
           comparisons,
           swaps,
         ),
@@ -89,7 +105,8 @@ export function createInsertionSortSteps(
           [position, position + 1],
           [...sortedIndices],
           "swapping",
-          `Move ${currentValue} left past ${leftValue}.`,
+          5,
+          `${leftValue} is larger than ${currentValue}, so move ${currentValue} one place left and continue checking.`,
           comparisons,
           swaps,
         ),
@@ -98,6 +115,7 @@ export function createInsertionSortSteps(
     }
 
     values[position + 1] = currentValue;
+    const didMove = position !== startingPosition;
 
     for (let sortedIndex = 0; sortedIndex <= index; sortedIndex += 1) {
       sortedIndices.add(sortedIndex);
@@ -109,7 +127,10 @@ export function createInsertionSortSteps(
         [],
         [...sortedIndices],
         "sorted",
-        `Inserted ${currentValue} at position ${position + 1}. The prefix is sorted.`,
+        7,
+        didMove
+          ? `${currentValue} has been inserted into position ${position + 1}. The values through index ${index} are now sorted.`
+          : `${currentValue} is already in the right place. The values through index ${index} are now sorted.`,
         comparisons,
         swaps,
       ),
@@ -126,7 +147,8 @@ export function createInsertionSortSteps(
       [],
       [...sortedIndices],
       "complete",
-      "The array is sorted in ascending order.",
+      7,
+      "Every value has been inserted into the sorted prefix, so Insertion Sort is finished.",
       comparisons,
       swaps,
     ),

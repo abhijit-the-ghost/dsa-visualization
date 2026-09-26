@@ -1,4 +1,7 @@
-import { createBubbleSortSteps } from "@/features/sorting/algorithms/bubbleSort";
+import {
+  bubbleSortSourceCode,
+  createBubbleSortSteps,
+} from "@/features/sorting/algorithms/bubbleSort";
 import { BubbleSortGuide } from "@/features/sorting/components/BubbleSortGuide";
 import { SortingVisualizer } from "@/features/sorting/components/SortingVisualizer";
 
@@ -18,7 +21,11 @@ export function BubbleSortPage() {
       </header>
 
       <BubbleSortGuide />
-      <SortingVisualizer createSteps={createBubbleSortSteps} />
+      <SortingVisualizer
+        createSteps={createBubbleSortSteps}
+        codeTitle="Bubble Sort source"
+        codeLines={bubbleSortSourceCode}
+      />
     </section>
   );
 }

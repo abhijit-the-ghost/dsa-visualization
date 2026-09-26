@@ -4,7 +4,7 @@ A browser-based workspace for learning data structures and algorithms through in
 
 > **Project status:** early scaffold
 >
-> The application now has a routed shell and working Bubble Sort and Insertion Sort visualizers. They use immutable algorithm frames, educational guides, manual stepping, playback, and persisted theme selection. Searching, shared visualization state, and the remaining data structures are still planned.
+> The application now has a landing page, project/about page, and working Bubble Sort and Insertion Sort visualizers. They use immutable algorithm frames, educational guides, manual stepping, playback, and persisted theme selection. Searching, shared visualization state, and the remaining data structures are still planned.
 
 ## What exists today
 
@@ -14,13 +14,16 @@ A browser-based workspace for learning data structures and algorithms through in
 - React Compiler enabled through the Vite React/Babel configuration.
 - A small `cn()` class-name utility built with `clsx` and `tailwind-merge`.
 - A routed application shell with a responsive Header and collapsible Sidebar.
+- A landing page at `/` introducing the project and available visualizers.
+- An About page at `/about` with developer, GitHub, roadmap, and setup information.
 - Route-aware smooth scroll restoration that returns to the top on navigation.
 - Working `/sorting/bubble` and `/sorting/insertion` routes with frame-based visualizers.
 - Educational guides for both sorting algorithms with plain-language steps, pseudocode, complexity, and animation legends.
-- Playback controls, manual stepping, array generation, array sizing, and playback speed up to 6x.
+- A side-by-side live source-code panel that highlights the active algorithm line and explains what it is doing.
+- Playback controls, manual stepping, array generation, array sizing, and playback speed up to 6x inside the visualization card.
 - A DaisyUI theme controller with a persisted selection in `localStorage`.
 - A custom SVG favicon and SEO, Open Graph, and Twitter metadata in `index.html`.
-- Navigation metadata for sorting, searching, and future data-structure areas.
+- Navigation metadata for the landing/about pages, sorting, searching, and future data-structure areas.
 - Early Header and Sidebar components with responsive and collapsible-navigation scaffolding.
 - ESLint configuration for JavaScript/TypeScript, React Hooks, and React Refresh rules.
 - Husky Git hooks for lint and production-build quality gates.
@@ -45,7 +48,7 @@ The next planned modules are shown as roadmap items in the sidebar; Searching is
   - Trees
   - Graphs
 
-Both sorting visualizers generate immutable frames from pure algorithm functions and share playback controls. The searching and data-structure modules remain placeholders.
+Both sorting visualizers generate immutable frames from pure algorithm functions, highlight the matching source-code line, and share playback controls. The searching and data-structure modules remain placeholders.
 
 ## Getting started
 
@@ -107,6 +110,7 @@ src/
 │   ├── App.tsx                 # Current application entry component
 │   ├── providers.tsx           # Application providers, including theme state
 │   └── router.tsx              # Route definitions
+├── pages/                      # Landing and About pages
 ├── components/
 │   ├── layout/                 # Header, Sidebar, and page shell components
 │   └── ui/                     # Reusable UI components, icons, and theme control
@@ -137,6 +141,7 @@ index.html
             └── PageLayout
                 ├── Header
                 ├── Sidebar
+                ├── LandingPage / AboutPage
                 └── BubbleSortPage / InsertionSortPage
                     ├── Sorting guide
                     └── SortingVisualizer
@@ -164,7 +169,7 @@ The visualization frame model lives in `src/engine/types/visualization.ts`. Algo
 - Bubble Sort and Insertion Sort are implemented; searching and the data-structure modules are not yet available.
 - Visualization state is local to the shared sorting component; there is no persistent visualization store yet.
 - Navigation entries for unimplemented modules describe the roadmap rather than available pages.
-- The Header's search affordance and generic GitHub link are presentation-only at this stage.
+- The Header's search affordance is presentation-only; the GitHub link opens the project repository.
 - No automated tests, CI workflow, or additional package-manager metadata is currently included.
 
 ## Development workflow

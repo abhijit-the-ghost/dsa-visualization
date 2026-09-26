@@ -1,6 +1,8 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import { BubbleSortPage } from "@/features/sorting/components/BubbleSortPage";
 import { InsertionSortPage } from "@/features/sorting/components/InsertionSortPage";
+import { AboutPage } from "@/pages/AboutPage";
+import { LandingPage } from "@/pages/LandingPage";
 import { PageLayout } from "@/components/layout/PageLayout";
 
 export const router = createBrowserRouter([
@@ -10,7 +12,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/sorting/bubble" replace />,
+        element: <LandingPage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
       },
       {
         path: "sorting/bubble",
@@ -22,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <Navigate to="/sorting/bubble" replace />,
+        element: <Navigate to="/" replace />,
       },
     ],
   },

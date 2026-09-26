@@ -4,6 +4,7 @@ import {
   Link2,
   GitBranch,
   Network,
+  Home,
   type LucideIcon,
 } from "lucide-react";
 
@@ -20,6 +21,14 @@ export interface NavCategory {
 }
 
 export const navigation: NavCategory[] = [
+  {
+    label: "Overview",
+    icon: Home,
+    children: [
+      { label: "Home", path: "/" },
+      { label: "About", path: "/about" },
+    ],
+  },
   {
     label: "Sorting",
     icon: BarChart3,

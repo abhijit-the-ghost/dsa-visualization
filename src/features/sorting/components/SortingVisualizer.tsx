@@ -12,6 +12,7 @@ import type {
   VisualizationStatus,
   VisualizationStep,
 } from "@/engine/types/visualization";
+import { AlgorithmCodePanel } from "@/features/sorting/components/AlgorithmCodePanel";
 import { SortBar } from "@/features/sorting/components/SortBar";
 
 const DEFAULT_INITIAL_VALUES = [42, 18, 65, 31, 77, 24, 53, 12, 89, 37];
@@ -26,6 +27,8 @@ type StepGenerator = (values: readonly number[]) => VisualizationStep[];
 
 interface SortingVisualizerProps {
   createSteps: StepGenerator;
+  codeTitle: string;
+  codeLines: string[];
   initialValues?: number[];
   operationLabel?: string;
   swappingLabel?: string;
@@ -48,6 +51,8 @@ function generateArray(size: number) {
 
 export function SortingVisualizer({
   createSteps,
+  codeTitle,
+  codeLines,
   initialValues = DEFAULT_INITIAL_VALUES,
   operationLabel = "Swaps",
   swappingLabel = "Swapping",
@@ -161,154 +166,162 @@ export function SortingVisualizer({
             </span>
           </div>
 
-          <div className="flex h-64 items-end gap-1 rounded-box bg-base-200 p-4">
-            {currentFrame.values.map((value, index) => {
-              const isActive = currentFrame.activeIndices.includes(index);
-              const isSwapping =
-                currentFrame.status === "swapping" && isActive;
+          <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)]">
+            <div className="space-y-4">
+              <div className="flex h-64 items-end gap-1 rounded-box bg-base-200 p-4">
+                {currentFrame.values.map((value, index) => {
+                  const isActive = currentFrame.activeIndices.includes(index);
+                  const isSwapping =
+                    currentFrame.status === "swapping" && isActive;
 
-              return (
-                <SortBar
-                  key={index}
-                  value={value}
-                  index={index}
-                  maxValue={maxValue}
-                  isActive={isActive}
-                  isSorted={currentFrame.sortedIndices.includes(index)}
-                  isSwapping={isSwapping}
+                  return (
+                    <SortBar
+                      key={index}
+                      value={value}
+                      index={index}
+                      maxValue={maxValue}
+                      isActive={isActive}
+                      isSorted={currentFrame.sortedIndices.includes(index)}
+                      isSwapping={isSwapping}
+                    />
+                  );
+                })}
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+                <div className="flex flex-wrap gap-4 text-base-content/70">
+                  <span className="flex items-center gap-2">
+                    <span className="size-3 rounded-full bg-primary" />
+                    Unsorted
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="size-3 rounded-full bg-warning" />
+                    Comparing
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="size-3 rounded-full bg-error" />
+                    {swappingLabel}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="size-3 rounded-full bg-success" />
+                    Sorted
+                  </span>
+                </div>
+                <span className="text-base-content/70">
+                  {currentStep} / {lastStep} steps
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <progress
+                  className="progress progress-primary flex-1"
+                  value={progress}
+                  max="100"
                 />
-              );
-            })}
-          </div>
+                <span className="text-xs text-base-content/60">
+                  {Math.round(progress)}%
+                </span>
+              </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-            <div className="flex flex-wrap gap-4 text-base-content/70">
-              <span className="flex items-center gap-2">
-                <span className="size-3 rounded-full bg-primary" />
-                Unsorted
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="size-3 rounded-full bg-warning" />
-                Comparing
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="size-3 rounded-full bg-error" />
-                {swappingLabel}
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="size-3 rounded-full bg-success" />
-                Sorted
-              </span>
+              <div className="space-y-6 border-t border-base-300 pt-6">
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={handleShuffle}
+                  >
+                    <RefreshCw size={16} />
+                    New array
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    onClick={handleReset}
+                  >
+                    <RotateCcw size={16} />
+                    Reset steps
+                  </button>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <label className="form-control gap-2">
+                    <span className="flex items-center justify-between text-sm font-medium">
+                      <span>Array size</span>
+                      <span className="font-mono text-base-content/60">
+                        {values.length}
+                      </span>
+                    </span>
+                    <input
+                      type="range"
+                      className="range range-primary range-sm"
+                      min={MIN_ARRAY_SIZE}
+                      max={MAX_ARRAY_SIZE}
+                      value={values.length}
+                      onChange={handleSizeChange}
+                      aria-label="Array size"
+                    />
+                  </label>
+
+                  <label className="form-control gap-2">
+                    <span className="flex items-center justify-between text-sm font-medium">
+                      <span>Playback speed</span>
+                      <span className="font-mono text-base-content/60">
+                        {speed.toFixed(1)}x
+                      </span>
+                    </span>
+                    <input
+                      type="range"
+                      className="range range-secondary range-sm"
+                      min={MIN_SPEED}
+                      max={MAX_SPEED}
+                      step="0.5"
+                      value={speed}
+                      onChange={handleSpeedChange}
+                      aria-label="Playback speed"
+                    />
+                  </label>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    <ChevronLeft size={18} />
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary min-w-32"
+                    onClick={handlePlayToggle}
+                  >
+                    {isPlaybackActive ? (
+                      <Pause size={18} />
+                    ) : (
+                      <Play size={18} />
+                    )}
+                    {isAtEnd ? "Replay" : isPlaybackActive ? "Pause" : "Play"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={handleNext}
+                    disabled={isAtEnd}
+                  >
+                    Next
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
             </div>
-            <span className="text-base-content/70">
-              {currentStep} / {lastStep} steps
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <progress
-              className="progress progress-primary flex-1"
-              value={progress}
-              max="100"
+            <AlgorithmCodePanel
+              title={codeTitle}
+              codeLines={codeLines}
+              activeLine={currentFrame.codeLine}
+              description={currentFrame.description}
             />
-            <span className="text-xs text-base-content/60">
-              {Math.round(progress)}%
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="card border border-base-300 bg-base-100 shadow-sm">
-        <div className="card-body gap-6">
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              className="btn btn-outline btn-sm"
-              onClick={handleShuffle}
-            >
-              <RefreshCw size={16} />
-              New array
-            </button>
-            <button
-              type="button"
-              className="btn btn-ghost btn-sm"
-              onClick={handleReset}
-            >
-              <RotateCcw size={16} />
-              Reset steps
-            </button>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <label className="form-control gap-2">
-              <span className="flex items-center justify-between text-sm font-medium">
-                <span>Array size</span>
-                <span className="font-mono text-base-content/60">
-                  {values.length}
-                </span>
-              </span>
-              <input
-                type="range"
-                className="range range-primary range-sm"
-                min={MIN_ARRAY_SIZE}
-                max={MAX_ARRAY_SIZE}
-                value={values.length}
-                onChange={handleSizeChange}
-                aria-label="Array size"
-              />
-            </label>
-
-            <label className="form-control gap-2">
-              <span className="flex items-center justify-between text-sm font-medium">
-                <span>Playback speed</span>
-                <span className="font-mono text-base-content/60">
-                  {speed.toFixed(1)}x
-                </span>
-              </span>
-              <input
-                type="range"
-                className="range range-secondary range-sm"
-                min={MIN_SPEED}
-                max={MAX_SPEED}
-                step="0.5"
-                value={speed}
-                onChange={handleSpeedChange}
-                aria-label="Playback speed"
-              />
-            </label>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={handlePrevious}
-              disabled={currentStep === 0}
-            >
-              <ChevronLeft size={18} />
-              Previous
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary min-w-32"
-              onClick={handlePlayToggle}
-            >
-              {isPlaybackActive ? (
-                <Pause size={18} />
-              ) : (
-                <Play size={18} />
-              )}
-              {isAtEnd ? "Replay" : isPlaybackActive ? "Pause" : "Play"}
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={handleNext}
-              disabled={isAtEnd}
-            >
-              Next
-              <ChevronRight size={18} />
-            </button>
           </div>
         </div>
       </div>
